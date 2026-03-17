@@ -6,6 +6,11 @@
  * - Subtraction (-)
  * - Multiplication (×)
  * - Division (÷)
+ * 
+ * And advanced operations:
+ * - Modulo (%)
+ * - Exponentiation (^)
+ * - Square Root (√)
  */
 
 class Calculator {
@@ -51,6 +56,43 @@ class Calculator {
       throw new Error('Cannot divide by zero');
     }
     return a / b;
+  }
+
+  /**
+   * Modulo operation
+   * @param {number} a - First number (dividend)
+   * @param {number} b - Second number (divisor)
+   * @returns {number} Remainder of a divided by b
+   * @throws {Error} If divisor is zero
+   */
+  modulo(a, b) {
+    if (b === 0) {
+      throw new Error('Cannot perform modulo with zero divisor');
+    }
+    return a % b;
+  }
+
+  /**
+   * Exponentiation operation
+   * @param {number} base - The base number
+   * @param {number} exponent - The exponent (power)
+   * @returns {number} Result of base raised to the exponent
+   */
+  power(base, exponent) {
+    return Math.pow(base, exponent);
+  }
+
+  /**
+   * Square root operation
+   * @param {number} n - The number to find the square root of
+   * @returns {number} The square root of n
+   * @throws {Error} If n is negative
+   */
+  squareRoot(n) {
+    if (n < 0) {
+      throw new Error('Cannot calculate square root of negative number');
+    }
+    return Math.sqrt(n);
   }
 }
 

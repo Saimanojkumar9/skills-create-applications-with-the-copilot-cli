@@ -3,14 +3,21 @@
 /**
  * Node.js CLI Calculator Application
  * 
- * Supported operations:
+ * Supported basic operations:
  * - Addition (+)
  * - Subtraction (-)
  * - Multiplication (×)
  * - Division (÷)
  * 
+ * Supported advanced operations:
+ * - Modulo (%)
+ * - Exponentiation (^)
+ * - Square Root (sqrt)
+ * 
  * Usage: node cli.js <number1> <operation> <number2>
+ *        node cli.js sqrt <number>
  * Example: node cli.js 10 + 5
+ *          node cli.js sqrt 16
  */
 
 const Calculator = require('./calculator');
@@ -23,19 +30,29 @@ function displayUsage() {
 ║     Node.js CLI Calculator Application     ║
 ╚════════════════════════════════════════════╝
 
-Supported Operations:
+BASIC OPERATIONS:
   + (Addition)
   - (Subtraction)
   * or × (Multiplication)
   / or ÷ (Division)
 
-Usage: node cli.js <number1> <operation> <number2>
+ADVANCED OPERATIONS:
+  % (Modulo - remainder)
+  ^ (Exponentiation - power)
+  sqrt (Square Root)
 
-Examples:
-  node cli.js 10 + 5      → 15
-  node cli.js 20 - 8      → 12
-  node cli.js 6 "*" 7     → 42
-  node cli.js 100 / 4     → 25
+USAGE:
+  Binary operations: node cli.js <number1> <operation> <number2>
+  Unary operation:   node cli.js sqrt <number>
+
+EXAMPLES:
+  node cli.js 10 + 5        → 15
+  node cli.js 20 - 8        → 12
+  node cli.js 6 "*" 7       → 42
+  node cli.js 100 / 4       → 25
+  node cli.js 10 "%" 3      → 1
+  node cli.js 2 "^" 8       → 256
+  node cli.js sqrt 16       → 4
   `);
 }
 
@@ -69,6 +86,12 @@ function performCalculation(num1, operation, num2) {
         result = calculator.divide(a, b);
         displayOp = '÷';
         break;
+      case '%':
+        result = calculator.modulo(a, b);
+        break;
+      case '^':
+        result = calculator.power(a, b);
+        break;
       default:
         console.error(`❌ Error: Unknown operation '${operation}'`);
         displayUsage();
@@ -81,11 +104,41 @@ function performCalculation(num1, operation, num2) {
   }
 }
 
+function performUnaryOperation(operation, num) {
+  const n = parseFloat(num);
+
+  if (isNaN(n)) {
+    console.error('❌ Error: Input must be a valid number');
+    return;
+  }
+
+  try {
+    let result;
+    let displayOp;
+
+    switch (operation.toLowerCase()) {
+      case 'sqrt':
+        result = calculator.squareRoot(n);
+        displayOp = '√';
+        console.log(`\n✓ ${displayOp}${n} = ${result}\n`);
+        break;
+      default:
+        console.error(`❌ Error: Unknown operation '${operation}'`);
+        displayUsage();
+        return;
+    }
+  } catch (error) {
+    console.error(`❌ Error: ${error.message}`);
+  }
+}
+
 // Main execution
 const args = process.argv.slice(2);
 
 if (args.length === 0 || args[0] === '--help' || args[0] === '-h') {
   displayUsage();
+} else if (args[0].toLowerCase() === 'sqrt' && args.length === 2) {
+  performUnaryOperation(args[0], args[1]);
 } else if (args.length === 3) {
   performCalculation(args[0], args[1], args[2]);
 } else {
