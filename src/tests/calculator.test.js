@@ -183,6 +183,169 @@ describe('Calculator Module', () => {
       const result = calculator.subtract(step2, 4);
       expect(result).toBe(10);
     });
+
+    test('should perform chained operations with modulo: (5 % 2) + 3 = 4', () => {
+      const step1 = calculator.modulo(5, 2);
+      const result = calculator.add(step1, 3);
+      expect(result).toBe(4);
+    });
+
+    test('should perform chained operations with power: (2 ^ 3) * 2 = 16', () => {
+      const step1 = calculator.power(2, 3);
+      const result = calculator.multiply(step1, 2);
+      expect(result).toBe(16);
+    });
+
+    test('should perform chained operations with sqrt: √16 + 9 = 13', () => {
+      const step1 = calculator.squareRoot(16);
+      const result = calculator.add(step1, 9);
+      expect(result).toBe(13);
+    });
+  });
+
+  // ============ MODULO TESTS ============
+  describe('Modulo', () => {
+    test('should perform modulo with 5 % 2 = 1', () => {
+      expect(calculator.modulo(5, 2)).toBe(1);
+    });
+
+    test('should perform modulo: 10 % 3 = 1', () => {
+      expect(calculator.modulo(10, 3)).toBe(1);
+    });
+
+    test('should perform modulo with even division: 10 % 5 = 0', () => {
+      expect(calculator.modulo(10, 5)).toBe(0);
+    });
+
+    test('should perform modulo with negative dividend: -10 % 3 = -1', () => {
+      expect(calculator.modulo(-10, 3)).toBe(-1);
+    });
+
+    test('should perform modulo with negative divisor: 10 % -3 = 1', () => {
+      expect(calculator.modulo(10, -3)).toBe(1);
+    });
+
+    test('should perform modulo with both negative: -10 % -3 = -1', () => {
+      expect(calculator.modulo(-10, -3)).toBe(-1);
+    });
+
+    test('should perform modulo with smaller dividend: 3 % 10 = 3', () => {
+      expect(calculator.modulo(3, 10)).toBe(3);
+    });
+
+    test('should perform modulo with decimal numbers: 10.5 % 3 ≈ 1.5', () => {
+      expect(calculator.modulo(10.5, 3)).toBeCloseTo(1.5);
+    });
+
+    test('should throw error when performing modulo with zero divisor', () => {
+      expect(() => {
+        calculator.modulo(10, 0);
+      }).toThrow('Cannot perform modulo with zero divisor');
+    });
+  });
+
+  // ============ POWER/EXPONENTIATION TESTS ============
+  describe('Power (Exponentiation)', () => {
+    test('should calculate power with 2 ^ 3 = 8', () => {
+      expect(calculator.power(2, 3)).toBe(8);
+    });
+
+    test('should calculate power: 2 ^ 8 = 256', () => {
+      expect(calculator.power(2, 8)).toBe(256);
+    });
+
+    test('should calculate power with zero exponent: 5 ^ 0 = 1', () => {
+      expect(calculator.power(5, 0)).toBe(1);
+    });
+
+    test('should calculate power with exponent of 1: 7 ^ 1 = 7', () => {
+      expect(calculator.power(7, 1)).toBe(7);
+    });
+
+    test('should calculate power with negative exponent: 2 ^ -2 = 0.25', () => {
+      expect(calculator.power(2, -2)).toBe(0.25);
+    });
+
+    test('should calculate power with negative base: (-2) ^ 3 = -8', () => {
+      expect(calculator.power(-2, 3)).toBe(-8);
+    });
+
+    test('should calculate power with negative base and even exponent: (-2) ^ 4 = 16', () => {
+      expect(calculator.power(-2, 4)).toBe(16);
+    });
+
+    test('should calculate power with base of 0: 0 ^ 5 = 0', () => {
+      expect(calculator.power(0, 5)).toBe(0);
+    });
+
+    test('should calculate power with base of 1: 1 ^ 100 = 1', () => {
+      expect(calculator.power(1, 100)).toBe(1);
+    });
+
+    test('should calculate power with decimal base: 1.5 ^ 2 = 2.25', () => {
+      expect(calculator.power(1.5, 2)).toBe(2.25);
+    });
+
+    test('should calculate power with decimal exponent: 4 ^ 0.5 = 2', () => {
+      expect(calculator.power(4, 0.5)).toBe(2);
+    });
+
+    test('should calculate power with large exponent: 10 ^ 6 = 1000000', () => {
+      expect(calculator.power(10, 6)).toBe(1000000);
+    });
+  });
+
+  // ============ SQUARE ROOT TESTS ============
+  describe('Square Root', () => {
+    test('should calculate square root with √16 = 4', () => {
+      expect(calculator.squareRoot(16)).toBe(4);
+    });
+
+    test('should calculate square root: √25 = 5', () => {
+      expect(calculator.squareRoot(25)).toBe(5);
+    });
+
+    test('should calculate square root of zero: √0 = 0', () => {
+      expect(calculator.squareRoot(0)).toBe(0);
+    });
+
+    test('should calculate square root of one: √1 = 1', () => {
+      expect(calculator.squareRoot(1)).toBe(1);
+    });
+
+    test('should calculate square root of decimal: √2 ≈ 1.414', () => {
+      expect(calculator.squareRoot(2)).toBeCloseTo(1.414, 3);
+    });
+
+    test('should calculate square root of perfect square: √144 = 12', () => {
+      expect(calculator.squareRoot(144)).toBe(12);
+    });
+
+    test('should calculate square root of decimal: √0.25 = 0.5', () => {
+      expect(calculator.squareRoot(0.25)).toBe(0.5);
+    });
+
+    test('should calculate square root of small decimal: √0.01 = 0.1', () => {
+      expect(calculator.squareRoot(0.01)).toBe(0.1);
+    });
+
+    test('should throw error when calculating square root of negative: √(-1)', () => {
+      expect(() => {
+        calculator.squareRoot(-1);
+      }).toThrow('Cannot calculate square root of negative number');
+    });
+
+    test('should throw error when calculating square root of negative: √(-16)', () => {
+      expect(() => {
+        calculator.squareRoot(-16);
+      }).toThrow('Cannot calculate square root of negative number');
+    });
+
+    test('should throw error when calculating square root of negative: √(-100)', () => {
+      expect(() => {
+        calculator.squareRoot(-100);
+      }).toThrow('Cannot calculate square root of negative number');
+    });
   });
 
   // ============ EDGE CASES & SPECIAL VALUES ============
